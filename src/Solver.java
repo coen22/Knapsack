@@ -1,19 +1,22 @@
 import java.util.ArrayList;
+import java.util.Random;
+
 public class Solver{
 	public ArrayList<Integer> search(int[][] matrix, ArrayList<Integer> rows, ArrayList<Integer> cols, ArrayList<Integer> res, Board board) {
-	       if (cols.isEmpty() && rows.isEmpty()) {                        //if matrix is empty print and return solution
-	           System.out.println(res);
-               return res;
-	       }
-	    	   
-	       // stopping conditions
-	       if (prune(matrix, rows, cols, res))
-		       return res;
+			//if matrix is empty print and return solution
+			if (cols.isEmpty() && rows.isEmpty()) {
+				System.out.println(res);
+				return res;
+			}
+			
+	       //stopping conditions
+	       // if (prune(matrix, rows, cols, res))
+		   //    return res;
 	       
 	       int col = cols.get(0);
 	       
 	       for (int r = 0; r < matrix.length; r++) {
-	           if (rows.contains(r) && matrix[r][col] == 1) {
+	           if (rows.contains(r) && matrix[r][col] > 0) {
 	        	   		// add this move to the solution
 	        	   		res.add(r);
 	               
@@ -25,9 +28,9 @@ public class Solver{
 	               tempRow.addAll(rows);
 	               
 	               for (int y = 0; y < matrix[r].length; y++) {
-	                   if (cols.contains(y) && matrix[r][y] == 1) {
+	                   if (cols.contains(y) && matrix[r][y] > 0) {
 	                       for(int x = 0; x < matrix.length; x++) {
-	                           if (rows.contains(x) && matrix[x][y] == 1 && x != r) {	                        	   
+	                           if (rows.contains(x) && matrix[x][y] > 0 && x != r) {	                        	   
 	            	               // we're gonna ignore row r
 	                        	   	rows.remove(new Integer(x));
 	                           }
@@ -41,9 +44,6 @@ public class Solver{
 	               // we're gonna ignore row r
 	               rows.remove(new Integer(r));
 
-	               // for debugging draw the board
-	               drawCurrentState(matrix, res, board);
-	               
 	               // search the next one
 	               search(matrix, rows, cols, res, board);
 	               
@@ -58,7 +58,16 @@ public class Solver{
 	           }
 	       }
 	       
+	       printCurrentSolution(res);
+	       
 	       return res;
+	}
+	
+	private void printCurrentSolution(ArrayList<Integer> res) {		
+		System.out.println("");
+		for(Integer i : res) {
+			System.out.print(i + ", ");
+		}
 	}
 	
 	private boolean prune(int[][] matrix, ArrayList<Integer> rows, ArrayList<Integer> cols, ArrayList<Integer> res) {
@@ -77,34 +86,6 @@ public class Solver{
 	}
 	
 	private void drawCurrentState(int[][] matrix, ArrayList<Integer> res, Board board) {
-		cleanBoard(board);
-		
-		for(Integer i : res) {
-			drawLine(matrix[(int) i], board);
-		}
-	}
-
-	private void cleanBoard(Board board) {
-		
-		board.values = new int[board.width][board.height][board.length];
-	}
-	
-	private void drawLine(int[] row, Board board) {
-		// first we're gonna look what color to use
-		int color = 1;
-		
-		// we're gonna step through the blocks
-		for (int z = 0; z < board.length; z++) {
-			for (int y = 0; y < board.height; y++) {
-				for (int x = 0; x < board.width; x++) {
-					
-					if (row[x + (y + z * board.length) * board.height] == 1)
-						board.values[x][y][z] = color;
-					
-				}
-			}
-		}
-		
-		board.repaint();
+		// WIP
 	}
 }

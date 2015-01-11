@@ -9,7 +9,7 @@ public class Main {
 		
 		// this is going to build the sparace matrix, which we're going to use to find all solutions
 		SparceMatrix sparceMatrix = new SparceMatrix(board);
-		System.exit(0);
+		// System.exit(0);
 		
 		// convert the 2D arrayList into an array
 		int[][] matrix = new int [sparceMatrix.matrix.size()][sparceMatrix.matrix.get(0).size()];
@@ -28,10 +28,15 @@ public class Main {
 		// making an instance of the solver
 		Solver solver = new Solver();
 		
-		// start the solving process
-		// System.out.println("matrix length = " + (matrix.length) + ", matrix height " + matrix[0].length);
+		System.out.println(sparceMatrix.rows.size());
 		
 		sparceMatrix.results = solver.search(matrix, sparceMatrix.rows, sparceMatrix.columns, sparceMatrix.results, board);
-		
+		System.out.println("");
+		System.out.println("Done");
+		System.out.println("");
+		System.out.println("");
+		for (Integer res : sparceMatrix.results) {
+			System.out.print(res + ", ");
+		}
 	}
 }

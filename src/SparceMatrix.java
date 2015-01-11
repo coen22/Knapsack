@@ -8,7 +8,7 @@ public class SparceMatrix {
 	
 	public ArrayList<Integer> columns = new ArrayList<Integer>(); // The Header of every column
 	public ArrayList<Integer> rows = new ArrayList<Integer>(); // The Header of every row
-
+	
 	// The matrix which contains all the possible placements of every pentomino
 	public ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
 	
@@ -22,7 +22,6 @@ public class SparceMatrix {
 		
 		makeColumns();
 		makeMatrix();
-		drawMatrix();
 	}
 	
 	public void makeColumns() {
@@ -84,10 +83,13 @@ public class SparceMatrix {
 	public ArrayList<Integer> getBox(int piece, int x, int y, int z) {
 		ArrayList<Integer> num = new ArrayList<Integer>();
 		
+		// System.out.println("");
+		
 		for (int iz = z; iz < PackageInfo.packageTypes[piece][2] + z; iz++) {
 			for (int iy = y; iy < PackageInfo.packageTypes[piece][1] + y; iy++) {
 				for (int ix = x; ix < PackageInfo.packageTypes[piece][0] + x; ix++) {
 					num.add(ix + (iy + iz * board.length) * board.height);
+					// System.out.println("xyz = (" + ix + ", " + iy + ", " + iz + ")");
 				}
 			}
 		}
@@ -111,6 +113,7 @@ public class SparceMatrix {
 			row.set(n, color);
 		}
 		
+		rows.add(rows.size());
 		matrix.add(row);
 	}
 	
