@@ -18,8 +18,6 @@ public class SparceMatrix {
 	public SparceMatrix(Board board) {
 		this.board = board;
 		
-		System.out.println(board.getBoardSize());
-		
 		makeColumns();
 		makeMatrix();
 	}
