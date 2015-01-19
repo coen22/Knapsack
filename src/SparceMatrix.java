@@ -111,10 +111,12 @@ public class SparceMatrix {
 			row.set(n, color);
 		}
 		
+		/*
 		System.out.println("");
 		for (Integer i : row) {
 			System.out.print(i + " ");
 		}
+		*/
 		
 		rows.add(rows.size());
 		matrix.add(row);
