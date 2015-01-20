@@ -4,6 +4,7 @@ public class Search
 {
     private HeaderNode startNode;
     private int thresholt;
+    private ArrayList<ArrayList<Integer>> solutions = new ArrayList<ArrayList<Integer>>();
     
     public Search(int[][] matrix, double percentage)
     {
@@ -56,16 +57,16 @@ public class Search
         }
     }
     
-    public ArrayList<Integer> search()
+    public ArrayList<ArrayList<Integer>> search()
     {    	
     	ArrayList<Integer> solution = new ArrayList<Integer>();
+    	
+        search(solution);
 
-        search(solution, 0);
-
-        return solution;
+        return solutions;
     }
     
-    private boolean search(ArrayList<Integer> solution, int depth)
+    private boolean search(ArrayList<Integer> solution)
     {
     	int size = 0;
     	
@@ -74,66 +75,56 @@ public class Search
     	}
     	
         if (size <= thresholt) {
+        	ArrayList<Integer> valid = new ArrayList<Integer>();
+        	valid.addAll(solution);
+        	solutions.add(valid);
             return true;
         }
 
-        printheaders("getnextcolumn:", 10);
-        HeaderNode header = getNextColumn();
-        
-        if( header.headerID.equals("1"))
-        {
-        	int qq = 2;
-        }
-        
-        
-        System.out.println("");
-        String spaces = "";
-        // for(int i=0; i<depth; i++)
-        // 	spaces+="  ";
-        System.out.println(spaces+solution);
-		System.out.println(spaces+header + ", " + size);
-        
-		if(header.down.rowID == 1)
-    	{
-    	   int x = 2;
-    	   HeaderNode head = getNextColumn();
-    	}
-		
-        cover(header);
-        System.out.println("Cover: "+header.headerID);
-        for (Node node = header.down; node != header; node = node.down)
-        {
-        	if(node.rowID == 1)
-        	{
-        	   int x = 2;
-        	}
-            solution.add(node.rowID);
+        HeaderNode col = getNextColumn();
+          cover(col);
+          
+          Node row = col.down;
+          
+          while (row != col) {
+        	  solution.add(row.rowID);
+        	  Node node = row.right;
+        	  
+        	  while (node != row) {
+        		  cover(node);
+        		  node = node.right;
+        	  }
+        	  
+        	  if (search(solution))
+        		  return true;
             
-           for (Node tmp = node.right; tmp != node; tmp = tmp.right)
-                cover(tmp);
-
-            if (search(solution, depth+1))
-                return true;
-
-            solution.remove(solution.size() - 1);
-
-            for (Node tmp = node.right; tmp != node; tmp = tmp.right)
-                uncover(tmp);
-        }
-        System.out.println("UNCover: "+header.headerID);
-        uncover(header);
-
-        return false;
-    }
+        	  solution.remove(solution.size() - 1);
+            
+        	  node = row.left;
+            
+        	  while (node != row) {
+        		  uncover(node);
+        		  node = node.left;
+        	  }
+            
+        	  row = row.down;
+          }
+          
+          uncover(col);
+          
+          System.out.println(solution);
+          
+          return false;
+	}
     
     private HeaderNode getNextColumn()
     {
         HeaderNode header = null;
-        int min = Integer.MAX_VALUE;
+        int min = 0;
 
         for (HeaderNode tmp = (HeaderNode) startNode.right; tmp != startNode; tmp = (HeaderNode) tmp.right)
         {
-            if (min > tmp.count)
+            if (min > tmp.count || header == null)
             {
                 min = tmp.count;
                 header = tmp;
@@ -142,11 +133,12 @@ public class Search
 
         return header;
     }
+    
     private void printheaders(String t, int n)
     {
         int i=0;
         System.out.print(t);
-        for (HeaderNode tmp = (HeaderNode) startNode.right; i<n && tmp != startNode; tmp = (HeaderNode) tmp.right)
+        for (HeaderNode tmp = (HeaderNode) startNode.right; tmp != startNode; tmp = (HeaderNode) tmp.right)
         {
         	i++;
         	System.out.print(tmp.headerID+" ");
@@ -156,46 +148,49 @@ public class Search
 
     private void cover(Node node)
     {
-    	System.out.println("==== cover: from row "+node.rowID+" removing column "+node.header.headerID);
-    	if( node.rowID==123)
-    	{
-    	   int x = 2;
-    	}
+    	// System.out.println("==== cover: from row "+node.rowID+" removing column "+node.header.headerID);
+
         HeaderNode header = node.header;
 
-        printheaders("before:", 5);
+        // printheaders("BEFO:", 5);
         header.left.right = header.right;
         header.right.left = header.left;
-        printheaders("After:", 5);
+        // printheaders("AFTR:", 5);
         
-        for (Node row = header.down; row != header; row = row.down)
+        Node row = header.down;
+        
+        while (row != header)
         {
-        	System.out.println("         removing row "+row.rowID);
-//            for (Node tmp = row.right; tmp != row; tmp = tmp.right)
-            for (Node tmp = row; tmp != row; tmp = tmp.right)
-            {
+            Node tmp = row.right;
+            while (tmp != row) {
                 tmp.header.count--;
                 tmp.up.down = tmp.down;
                 tmp.down.up = tmp.up;
+                tmp = tmp.right;
             }
+            row = row.down;
         }
         //printheaders("After all:", 5);
     }
 
     private void uncover(Node node)
     {
-    	System.out.println("==== UNcover:"+node.header.headerID);
+    	// System.out.println("==== UNcover:"+node.header.headerID);
         HeaderNode header = node.header;
 
-        for (Node row = header.up; row != header; row = row.up)
+        Node row = header.up;
+        
+        while (row != header)
         {
-//            for (Node tmp = row.left; tmp != row; tmp = tmp.left)
-            for (Node tmp = row; tmp != row; tmp = tmp.left)
-            {
-                tmp.header.count++;
-                tmp.up.down = tmp;
+        	Node tmp = row.left;
+        	while (tmp != row)
+        	{
+        		tmp.header.count++;
+        		tmp.up.down = tmp;
                 tmp.down.up = tmp;
+                tmp = tmp.left;
             }
+        	row = row.up;
         }
 
         header.left.right = header;
