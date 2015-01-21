@@ -56,6 +56,9 @@ public class Main {
 		System.out.println("-----------------------");
 		System.out.println("Written by Coen Hacking");
 		System.out.println("-----------------------");
+		System.out.println("Thanks to the people who made LWJGL");
+		System.out.println("-----------------------");
+		
 		System.out.println("");
 		System.out.println("Start!");
 		
