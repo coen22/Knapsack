@@ -52,8 +52,13 @@ public class Main {
 		// ************************
 		// 	Search for a Solution
 		// ************************
-		
+
+		System.out.println("-----------------------");
+		System.out.println("Written by Coen Hacking");
+		System.out.println("-----------------------");
+		System.out.println("");
 		System.out.println("Start!");
+		
 		long startTime = System.currentTimeMillis();
 		
 		Search search = new Search(matrix, 0.03);

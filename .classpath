@@ -8,6 +8,5 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Knapsack/natives/macosx"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jars/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
