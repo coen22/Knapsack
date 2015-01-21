@@ -31,10 +31,12 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		// this is going to build the sparace matrix, which we're going to use to find all solutions
+		// ************************
+		//  Generate Sparse Matrix
+		// ************************
+		
 		SparceMatrix sparceMatrix = new SparceMatrix();
 
-		// convert the 2D arrayList into an array
 		int[][] matrix = new int [sparceMatrix.matrix.size()][sparceMatrix.matrix.get(0).size()];
 		
 		int x = 0;
@@ -47,11 +49,22 @@ public class Main {
 			x++;
 		}
 		
-		// Start of the algorithm
+		// ************************
+		// 	Search for a Solution
+		// ************************
+		
 		System.out.println("Start!");
 		long startTime = System.currentTimeMillis();
 		
 		Search search = new Search(matrix, 0.03);
+		
+		// ************************
+		// 	  Show the solution
+		// ************************
+		
+		// Duration
+		System.out.println("");
+		System.out.println("Time: " + (double) (System.currentTimeMillis() - startTime)/1000 + "s");
 		
 		ArrayList<ArrayList<Integer>> solutions = search.search();
 
@@ -59,8 +72,6 @@ public class Main {
 			System.out.println("No Solution!");
 			System.exit(0);
 		}
-		
-		System.out.println("");
 		
 		int[] finalSolution = new int[matrix.length];
 		
@@ -109,7 +120,6 @@ public class Main {
 		System.out.println("Percentage Filled: " + filled / matrix[0].length * 100 + "%");
 		System.out.println("Packages: " + solutions.get(solutions.size() - 1).size());
 		System.out.println("Value: " + value);
-		System.out.println("Time: " + (double) (System.currentTimeMillis() - startTime)/1000 + "s");
 		System.out.println("Done");
 		
 		GUI gui = new GUI();
