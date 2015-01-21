@@ -1,33 +1,55 @@
 import java.util.ArrayList;
 
+/**
+ * The Class SparceMatrix.
+ */
 public class SparceMatrix {
-	public ArrayList<Integer> results = new ArrayList<Integer>(); // the solutions
 	
-	 // Temporarily for creating rows
-	public ArrayList<Integer> row = new ArrayList<Integer>();
+	/** The results. */
+	public ArrayList<Integer> results = new ArrayList<Integer>();
 	
-	public ArrayList<Integer> columns = new ArrayList<Integer>(); // The Header of every column
-	public ArrayList<Integer> rows = new ArrayList<Integer>(); // The Header of every row
+	/** The row. */
+ 	public ArrayList<Integer> row = new ArrayList<Integer>();
 	
-	// The matrix which contains all the possible placements of every pentomino
+	/** The columns */
+	public ArrayList<Integer> columns = new ArrayList<Integer>();
+	
+	/** The rows. */
+	public ArrayList<Integer> rows = new ArrayList<Integer>();
+	
+	/** The matrix. */
 	public ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
 	
+	/**
+	 * Instantiates a new sparce matrix.
+	 */
 	public SparceMatrix() {
 		makeColumns();
 		makeMatrix();
 	}
 	
+	/**
+	 * Make columns.
+	 */
 	public void makeColumns() {
 		for(int y = 0; y < Main.width * Main.height * Main.length; y++) 
 			columns.add(y);
 	}
 
+	/**
+	 * Make matrix.
+	 */
 	public void makeMatrix() {
 		for (int i = 0; i < Main.packageTypes.length; i++) 
 			makePossibleRotations(i);
 	}
 	
 	// for every possible rotation we need to make a couple of rows
+	/**
+	 * Make possible rotations.
+	 *
+	 * @param piece the piece
+	 */
 	public void makePossibleRotations(int piece) {
 		int[] size = Main.packageTypes[piece].clone();
 		makePossibleTranslations(piece, size);
@@ -61,6 +83,12 @@ public class SparceMatrix {
 	}
 	
 	// for every single piece orientation we need to look for all possible translations
+	/**
+	 * Make possible translations.
+	 *
+	 * @param piece the piece
+	 * @param size the size
+	 */
 	public void makePossibleTranslations(int piece, int[] size) {
 		if (isIllegal(size))
 			return;
@@ -71,6 +99,16 @@ public class SparceMatrix {
 					makeRow(Main.width * Main.height * Main.length, piece + 1, getMatrixRowPositions(piece, size, x, y, z));
 	}
 	
+	/**
+	 * Gets the matrix row positions.
+	 *
+	 * @param piece the piece
+	 * @param size the size
+	 * @param x the x
+	 * @param y the y
+	 * @param z the z
+	 * @return the matrix row positions
+	 */
 	public ArrayList<Integer> getMatrixRowPositions(int piece, int[] size, int x, int y, int z) {
 		ArrayList<Integer> num = new ArrayList<Integer>();
 			
@@ -82,6 +120,12 @@ public class SparceMatrix {
 		return num;
 	}
 	
+	/**
+	 * Checks if is illegal.
+	 *
+	 * @param size the size
+	 * @return true, if is illegal
+	 */
 	private boolean isIllegal(int[] size) {
 		if (size[0] > Main.width ||
 			size[1] > Main.height ||
@@ -91,6 +135,13 @@ public class SparceMatrix {
 		return false;
 	}
 	
+	/**
+	 * Make row.
+	 *
+	 * @param boardsize the boardsize
+	 * @param color the color
+	 * @param num the num
+	 */
 	public void makeRow(int boardsize,int color, ArrayList<Integer> num) {
 		if (num == null)
 			return;

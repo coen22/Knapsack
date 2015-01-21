@@ -1,11 +1,26 @@
 import java.util.ArrayList;
 
+/**
+ * The Class Search.
+ */
 public class Search
 {
+    
+    /** The start node. */
     private HeaderNode startNode;
+    
+    /** The thresholt for when the truck is full enough */
     private int thresholt;
+    
+    /** The solutions. */
     private ArrayList<ArrayList<Integer>> solutions = new ArrayList<ArrayList<Integer>>();
     
+    /**
+     * Instantiates a new search algorithm object
+     *
+     * @param matrix the generated sparse matrix
+     * @param percentage the percentage on which the algorithm stops and returns the solution
+     */
     public Search(int[][] matrix, double percentage)
     {
     	thresholt = (int) (matrix[0].length * percentage);
@@ -57,6 +72,11 @@ public class Search
         }
     }
     
+    /**
+     * Search.
+     *
+     * @return the array list
+     */
     public ArrayList<ArrayList<Integer>> search()
     {    	
     	ArrayList<Integer> solution = new ArrayList<Integer>();
@@ -66,6 +86,12 @@ public class Search
         return solutions;
     }
     
+    /**
+     * Search.
+     *
+     * @param solution the solution
+     * @return true, if successful
+     */
     private boolean search(ArrayList<Integer> solution)
     {
     	int size = 0;
@@ -112,11 +138,16 @@ public class Search
           
           uncover(col);
           
-          System.out.println(solution);
+          // System.out.println(solution);
           
           return false;
 	}
     
+    /**
+     * Gets the next column.
+     *
+     * @return the next column
+     */
     private HeaderNode getNextColumn()
     {
         HeaderNode header = null;
@@ -134,18 +165,11 @@ public class Search
         return header;
     }
     
-    private void printheaders(String t, int n)
-    {
-        int i=0;
-        System.out.print(t);
-        for (HeaderNode tmp = (HeaderNode) startNode.right; tmp != startNode; tmp = (HeaderNode) tmp.right)
-        {
-        	i++;
-        	System.out.print(tmp.headerID+" ");
-        }
-        System.out.println("");
-    }
-
+    /**
+     * Cover.
+     *
+     * @param node the node
+     */
     private void cover(Node node)
     {
     	// System.out.println("==== cover: from row "+node.rowID+" removing column "+node.header.headerID);
@@ -173,6 +197,11 @@ public class Search
         //printheaders("After all:", 5);
     }
 
+    /**
+     * Uncover.
+     *
+     * @param node the node
+     */
     private void uncover(Node node)
     {
     	// System.out.println("==== UNcover:"+node.header.headerID);

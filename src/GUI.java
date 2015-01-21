@@ -1,17 +1,25 @@
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.*;
- 
+
+/**
+ * The GUI Class
+ */
 public class GUI {
 
+	/** The packages. */
 	public int[][][] packages = null;
 	
+	/** The colors. */
 	public Color32[] colors = new Color32[] {
 		Color32.red,
 		Color32.green,
 		Color32.blue
 	};
 	
+	/**
+	 * Draw.
+	 */
 	public void draw() {
 		if (packages == null)
 			return;
@@ -30,7 +38,6 @@ public class GUI {
         GL11.glRotatef(25, 1, 0, 0);
 		
         int lastX = Mouse.getX();
-        int lastY = Mouse.getY();
         boolean mouseClicked = false;
         
 		while (!Display.isCloseRequested()) {
@@ -43,14 +50,12 @@ public class GUI {
 	        	 if (!mouseClicked) {
 	        		 mouseClicked = true;
 	        		 lastX = Mouse.getX();
-	        		 lastY = Mouse.getY();
 	        	 }
 
 		         GL11.glRotatef(Mouse.getX() - lastX, 0, 1, 0);
 		         // GL11.glRotatef(lastY - Mouse.getY(), 1, 0, 0);
 		         
 		         lastX = Mouse.getX();
-		         lastY = Mouse.getY();
 	         } else {
 	        	 mouseClicked = false;
 	         }
@@ -69,6 +74,9 @@ public class GUI {
 	     System.exit(0);
 	 }
 	
+	/**
+	 * Draw packages.
+	 */
 	private void drawPackages() {
 		if (packages == null)
 			return;
@@ -87,6 +95,17 @@ public class GUI {
 		}
 	}
     
+    /**
+     * Draw a box
+     *
+     * @param x the x
+     * @param y the y
+     * @param z the z
+     * @param sx the width
+     * @param sy the height
+     * @param sz the length
+     * @param color the color
+     */
     private void drawBox(float x, float y, float z, float sx, float sy, float sz, Color32 color) {
     	sx = sx/2;
     	sy = sy/2;

@@ -1,12 +1,20 @@
-import java.sql.Time;
 import java.util.ArrayList;
 
+/**
+ * The Main Class
+ */
 public class Main {
 	
-	public static int width = 33;		// The width of the board	
-	public static int height = 5;		// The height of the board
-	public static int length = 8;		// The length of the board
+	/** The width of the truck */
+	public static int width = 33;
 	
+	/** The height of the truck */
+	public static int height = 5;
+	
+	/** The length of the truck */
+	public static int length = 8;
+	
+	/** The package types (parcels) */
 	public static int packageTypes[][] = {
 		// A
 		{2, 2, 4},
@@ -16,9 +24,12 @@ public class Main {
 		{3, 3, 3}
 	};
 	
-	// main method, it all starts here
-	public static void main(String[] s) {
-		long startTime = System.currentTimeMillis();
+	/**
+	 * The main method which is only there to test the program
+	 *
+	 * @param args the required arguments
+	 */
+	public static void main(String[] args) {
 		
 		// this is going to build the sparace matrix, which we're going to use to find all solutions
 		SparceMatrix sparceMatrix = new SparceMatrix();
@@ -36,7 +47,10 @@ public class Main {
 			x++;
 		}
 		
-		System.out.println("");
+		// Start of the algorithm
+		System.out.println("Start!");
+		long startTime = System.currentTimeMillis();
+		
 		Search search = new Search(matrix, 0.03);
 		
 		ArrayList<ArrayList<Integer>> solutions = search.search();
@@ -67,9 +81,18 @@ public class Main {
 					break;
 			}
 			
-			for (x = 0; x < matrix[0].length; x++)
+			for (x = 0; x < matrix[0].length; x++) {
 				finalSolution[x] += matrix[y][x];
+			}
 		}
+		
+
+		double filled = 0;
+		
+		for (x = 0; x < matrix[0].length; x++)
+			if (finalSolution[x] != 0)
+				filled ++;
+		
 		int[][][] solutionBox = new int[width][height][length];
 		
 		int index = 0;
@@ -83,6 +106,7 @@ public class Main {
 			}
 		}
 		
+		System.out.println("Percentage Filled: " + filled / matrix[0].length * 100 + "%");
 		System.out.println("Packages: " + solutions.get(solutions.size() - 1).size());
 		System.out.println("Value: " + value);
 		System.out.println("Time: " + (double) (System.currentTimeMillis() - startTime)/1000 + "s");
